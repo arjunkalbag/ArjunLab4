@@ -10,6 +10,10 @@ void loop();
 SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
 
+int buttonState = LOW;
+int oldButtonState = LOW;
+int ledState = LOW;
+
 void setup()
 {
 
@@ -20,13 +24,14 @@ void setup()
 void loop()
 {
 
-  bool value = digitalRead(D7);
-  if (value == true)
+  buttonState = digitalRead(D7);
+
+  if (buttonState != oldButtonState &&
+      buttonState == HIGH)
   {
-    digitalWrite(D5, HIGH);
+    ledState = (ledState == LOW ? HIGH : LOW);
+    digitalWrite(D5, ledState);
+    delay(50);
   }
-  else
-  {
-    digitalWrite(D5, LOW);
-  }
+  oldButtonState = buttonState;
 }
